@@ -1,0 +1,145 @@
+const express= require('express');
+const axios= require('axios');
+const path= require('path');
+const pug= require('pug');
+const port= process.env.port || 3000
+const mongoose= require('mongoose');
+const session= require('express-session');
+const expressValidator= require('express-validator');
+const bodyParser= require('body-parser');
+const passport= require('passport');
+
+// const data= require('./model/data');
+
+
+// let data= require('./model/data');
+let manage= require('./routes/manage');
+let index= require('./routes/index');
+let staff= require('./routes/staff');
+let drug= require('./routes/drugs');
+
+
+
+
+
+const app= express()
+
+// setting up database
+mongoose.connect('mongodb://localhost/kadunaHack', { useNewUrlParser: true });
+let db=mongoose.connection;
+
+db.once('open', function(){
+    console.log('connected')
+});
+
+db.on('error', function(err){
+    console.log(err)
+})
+
+
+// view engine
+// app.set('views', path.join(__dirname, 'view'))
+// app.set('view engine', 'pug')
+
+//moment
+app.locals.moment= require('moment')
+
+//middlewares 
+
+// express session 
+app.use(session({
+  secret: 'cristos',
+  resave: false,
+  saveUninitialized: true
+}));
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//connect flash
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+//express session
+app.use(
+  session({
+    secret: "some secret",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: 'auto'
+    }
+  })
+);
+//express validation
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+// body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+
+
+//creating universal route
+
+// creating routes
+
+//ROUTERS 
+app.use('/', index);
+app.use('/manage', manage);
+app.use('/drug', drug);
+app.use('/staff', staff);
+// Resolve the response callback
+//api calls here
+
+  // let resource_name = "health-facilities" // Name of endpoint
+  // let size = 200 // Number of items to return
+  // let page = 1 // Page Number to return
+  // let sort_by = "global_id" // Field used in sorting responses
+  // let fields = "lga_name,state_name,ward_name,functional_status,name" // Comma-separated list of fields (No space)
+  // let cql = "state_name IN ('Kaduna')" // Read documentations about Querying/Filtering (CQL)
+  // let response = getDatasets(resource_name=resource_name, size=size, page=page, sort_by=sort_by,fields=fields,cql=cql)
+  // console.log(JSON.stringify(response.data));
+
+// let Data = new data(response)
+
+// Data.save(data,(error,newData)=>{
+  // if (error) console.log(error)
+  // else {
+    // console.log(newData)
+  // }
+// });
+
+// response = nStore.new('model/data.db', function() {
+//   console.log('something should be save in the db');
+// });
+
+// data.save(response, (err)=>{
+//   if (err) {console.log(err)}
+// })
+// resource_name, size = 200, page = 1, sort_by = "global_id", fields = "", cql = ""
+
+
+app.listen(port, () =>{
+ console.log('listening at '+port)
+})
