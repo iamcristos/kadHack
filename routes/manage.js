@@ -5,9 +5,10 @@ const passport= require('passport');
 const localStrategy= require('passport-local').Strategy
 const drugs= require('../model/drug');
 const staff= require('../model/staff');
+const kaduna= require('../model/api');
 const admin= require('../model/manage');
-const trackStaff= require('../model/trackStaff')
-
+const apiData= require('../scripts');
+const trackStaff= require('../model/trackStaff');
 // home admin route only accesible to an admin
 router.get('/',ensureAuthenticated, (req,res,next)=>{
 res.send('Admin page')
@@ -106,21 +107,29 @@ router.get('/logout', (req,res,next)=>{
     req.logout()
     req.flash('success','Logged out');
     res.redirect('/manage/login')
+});
+//Get the drug registration form
+router.get('/drugs/register', (req,res,next)=>{
+    kaduna.find(err,data=>{
+        if (err) console.log(err)
+        res.send('data to retrieve lga_name and hospital form')//{name:data.name,lga_name:data.lga_name})
+    });
+    
 })
 
 //Get number of drugs sent to each local govt by collecting the data from the database
 router.get('/drugs', (req,res,next)=>{
-    drugs.getDrug((err,drugs)=>{
-        res.send('drugs register page')
-            // on the UI they now have acces to the lga time is been registered name of hospital
-        
-    })
-});
+    drugs.getDrug((err,drug=>{
+        res.send('the drug data')
+    }) // res.send('rigister')
+); 
+})  
+    
 
 // get all registered in staffs and sort them by the local govt
 router.get('/staffs', (req,res,next)=>{
     staff.getStaff((err,staffs)=>{
-        res.send('all registerd staff');
+        res.send("registered staffs are displayed");
         // here all staffs login details should show
     })
 });
@@ -163,7 +172,7 @@ router.post('/contact',(req,res,next)=>{
 router.get('/staffs/login', (req,res,next)=>{
     //quarry the staff post database that stores the time he logs in
     trackStaff.getStaffTime((err,staffs)=>{
-        res.send('as soon as a staff in the local government logs in')
+        res.send('staffs logged in')//'as soon as a staff in the local government logs in')
             // passing the data to the client side from the server
         })
     });

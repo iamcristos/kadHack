@@ -2,11 +2,12 @@ const express= require('express');
 const router= express.Router();
 const drugs= require('../model/drug');
 const staff= require('../model/staff');
+const kaduna= require('../model/api');
 const trackStaff= require('../model/trackStaff');
 const bcrypt= require('bcryptjs');
 const passport= require('passport');
 const LocalStrategy= require('passport-local').Strategy;
-const session= require('express-session');
+
 
 
 router.get('/',ensureAuthenticated, (req,res,next)=>{
@@ -16,8 +17,13 @@ router.get('/',ensureAuthenticated, (req,res,next)=>{
 // registering all staffs
 //Get registration page route
 router.get('/signUp', (req,res,next)=>{
-    res.send('rigister')
-});
+    kaduna.find(err,data =>{
+        res.send('render the page and collect data')
+    });    // res.send('rigister')
+})
+
+    
+
 
 //log in route
 router.get('/login', (req,res,next)=>{
@@ -49,7 +55,7 @@ router.post('/signUp', (req,res,next)=>{
         let Staff= new staff()
     Staff.username= req.body.username;
     Staff.healthFacility= req.body.healthFacility;
-    Staff.lga= req.body.lga;
+    Staff.lga_name= req.body.lga_name;
     Staff.email= req.body.email;
     Staff.password= req.body.password;
     
