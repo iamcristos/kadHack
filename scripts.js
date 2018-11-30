@@ -1,10 +1,12 @@
 const mongo = require('mongodb').MongoClient;
 const fetch = require('node-fetch');
+const mongoose= require('mongoose')
 
 
-// const url = 'mongodb://node:node12@ds119734.mlab.com:19734/node'
+// const url = 'mongodb://localhost:27017/kaduna_hack'
 
 const url ='mongodb://kad:123kaduna@ds241493.mlab.com:41493/kaduna_hack'
+// const url= 'mongodb://localhost/kadunaHack'
 
 
 mongo.connect(url, (err, client) => {
@@ -53,9 +55,12 @@ fetch(apiUrl)
         if (err) {
             console.log(err);
         }
-        console.log(result);
+        console.log(received);
     })
 
 });
 
-})
+});
+
+
+

@@ -25,7 +25,7 @@ let drug= require('./routes/drugs');
 const app= express()
 
 // setting up database
-// mongoose.connect('mongodb://localhost/kadunaHack', { useNewUrlParser: true });
+// mongoose.connect('mongodb://localhost/kaduna_hack', { useNewUrlParser: true });
 //online database connection using mlab
 mongoose.connect('mongodb://kad:123kaduna@ds241493.mlab.com:41493/kaduna_hack', { useNewUrlParser: true });
 let db=mongoose.connection;
