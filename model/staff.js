@@ -6,7 +6,7 @@ const staffSchema= mongoose.Schema({
     username: {
         type: String
     },
-    healthFacility: {
+    name: {
         type: String
     },
     lga_name: {
