@@ -26,5 +26,5 @@ module.exports= drug;
 // getting the number of drugs
 
 module.export= getDrug = (callback,limit)=>{
-    drug.find(callback).limit(limit).sort([["lga","asscending"]])
+    drug.find(callback).limit(limit).sort([["lga_name","ascending"]])
 } ;

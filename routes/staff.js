@@ -107,7 +107,7 @@ router.post('/login',
     function(req, res) {
         var query = {
             'username': req.user.username,
-            "lga":req.user.lga
+            "lga_name":req.user.lga_name
         };
         var update = {
             time: Date.now()
