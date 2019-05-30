@@ -55,7 +55,7 @@ fetch(apiUrl)
         if (err) {
             console.log(err);
         }
-        console.log(received);
+        console.log(result);
     })
 
 });
