@@ -23,7 +23,7 @@
     "mongodb": "^3.1.10",
     "mongoose": "^5.3.14",
     "node-fetch": "^2.3.0",
-    "nodemailer": "^4.7.0",
+    "nodemailer": "^6.4.16",
     "nstore": "^0.5.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
